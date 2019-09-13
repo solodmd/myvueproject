@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="">
+  <div class="eform-views">
     <el-table :data="viewArray">
       <el-table-column label="属性名" fit>
         <template slot-scope="scope">
@@ -8,21 +8,22 @@
       </el-table-column>
       <el-table-column label="属性值" fit>
         <template slot-scope="scope">
-          <div class="" v-if="null != Object.values(scope.row)[0] && isObj == (typeof Object.values(scope.row)[0])">
-            <div class="" v-if="typeOfField(Object.keys(scope.row)[0])==='X_IMAGE'">
+          <div class="file" v-if="null != Object.values(scope.row)[0] && isObj == (typeof Object.values(scope.row)[0])">
+            <div class="image" v-if="typeOfField(Object.keys(scope.row)[0])==='X_IMAGE'">
               <img :src="item.url" v-for="(item,index) in Object.values(scope.row)[0]" :key="index" width="40" height="40"/>
             </div>
-            <div class="" v-else-if="typeOfField(Object.keys(scope.row)[0])==='FILE'">
+            <div class="other-file" v-else-if="typeOfField(Object.keys(scope.row)[0])==='FILE'">
               <a :href="Object.values(scope.row)[0][0].url" v-text="Object.values(scope.row)[0][0].name">
               </a>
             </div>
           </div>
-          <div class="" v-else>
+          <div class="string" v-else>
             <span v-text="Object.values(scope.row)[0]"></span>
           </div>
         </template>
       </el-table-column>
     </el-table>
+    <el-button @click="test">{{msg|dateFormat}}</el-button>
   </div>
 </template>
 
@@ -40,18 +41,37 @@ export default {
     }
   },
   methods: {
+    test () { this.msg = new Date() },
     typeOfField (val) {
       let tempOfType = this.entitiesInfo.find(item => item.fieldName === val)
-      if (undefined === tempOfType) {
-        return ''
-      } else {
+      if (tempOfType) {
         return tempOfType.elementType
+      } else {
+        return ''
       }
     }
   },
   data () {
     return {
-      isObj: 'object'
+      isObj: 'object',
+      msg: ''
+    }
+  },
+  filters: {
+    dateFormat: function (dateStr, pattern = '') {
+      let dt = new Date(dateStr)
+      let y = dt.getFullYear()
+      let m = (dt.getMonth() + 1).toString().padStart(2, '0')
+      let d = dt.getDate().toString().padStart(2, '0')
+
+      if (pattern.toLowerCase() === 'yyyy-mm-dd') {
+        return `${y}-${m}-${d}`
+      } else {
+        let hh = dt.getHours().toString().padStart(2, '0')
+        let mm = dt.getMinutes().toString().padStart(2, '0')
+        let ss = dt.getSeconds().toString().padStart(2, '0')
+        return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
+      }
     }
   }
 }
