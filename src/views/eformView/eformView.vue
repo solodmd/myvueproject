@@ -23,7 +23,6 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-button @click="test">{{msg|dateFormat}}</el-button>
   </div>
 </template>
 
@@ -41,7 +40,6 @@ export default {
     }
   },
   methods: {
-    test () { this.msg = new Date() },
     typeOfField (val) {
       let tempOfType = this.entitiesInfo.find(item => item.fieldName === val)
       if (tempOfType) {
