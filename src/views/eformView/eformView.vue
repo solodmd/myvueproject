@@ -10,7 +10,7 @@
         <template slot-scope="scope">
           <div class="file" v-if="null != Object.values(scope.row)[0] && isObj == (typeof Object.values(scope.row)[0])">
             <div class="image" v-if="typeOfField(Object.keys(scope.row)[0])==='X_IMAGE'">
-              <img :src="item.url" v-for="(item,index) in Object.values(scope.row)[0]" :key="index" width="40" height="40"/>
+              <img :src="item.url" v-for="item in Object.values(scope.row)[0]" :key="item.url" width="80" height="80"/>
             </div>
             <div class="other-file" v-else-if="typeOfField(Object.keys(scope.row)[0])==='FILE'">
               <a :href="Object.values(scope.row)[0][0].url" v-text="Object.values(scope.row)[0][0].name">

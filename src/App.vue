@@ -1,13 +1,16 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link> |
-      <router-link to="/dialog">Dialog</router-link>
-    </div>
-    <div>
-      <router-view/>
-    </div>
+    <el-container style="height: 500px; border: 1px solid #eee">
+  <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
+    {{typeof this.$store.navList}}
+    <el-menu :default-active="this.$route.path" router mode="horizontal">
+  <el-menu-item v-for="(item,i) in this.$store.navList" :key="i" :index="item.name">
+      {{ item.navItem }}
+  </el-menu-item>
+</el-menu>
+</el-aside>
+<el-main><div><router-view/></div></el-main>
+</el-container>
   </div>
 </template>
 
